@@ -16,8 +16,8 @@ public class Date {
     }
     
     public void stringDate(String dateString) {
-        this.day = Integer.parseInt(dateString.split("/")[0]);
-        this.month = Integer.parseInt(dateString.split("/")[1]);
+        this.month = Integer.parseInt(dateString.split("/")[0]);
+        this.day = Integer.parseInt(dateString.split("/")[1]);
         this.year = Integer.parseInt(dateString.split("/")[2]);
         this.dateString = this.day + "/" + this.month + "/" + this.year;
     }

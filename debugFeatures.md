@@ -24,9 +24,9 @@
 ### Update note
 - [x] Title
 - [x] Content
-- [ ] Date
-- [ ] Exit
+- [x] Date
+- [x] Exit
 
-## Note.java
-- [ ] - interactDate 
-- [ ] - Parse String Date <!--BUG: "this.dateString" is null" --> 
+## Date.java
+- [ ] parse string date
+- [ ] manual date
