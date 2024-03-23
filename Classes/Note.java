@@ -34,7 +34,7 @@ public class Note {
     }
 
     public String printNote(){
-        return "===" + this.title + "===" + "\n" + "Date: " + this.date + "| ID:" +this.id + "\n" + this.content + "\n";
+        return "===" + this.title + "===" + "\n" + "Date: " + this.date.dateString + "| ID:" +this.id + "\n" + this.content + "\n";
     }
 
     public void createNote(Scanner scanner){
