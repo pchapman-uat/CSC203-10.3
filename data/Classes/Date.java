@@ -38,7 +38,7 @@ public class Date {
         System.out.println("==Enter the date==");
         System.out.println("1. Formated Date (mm/dd/yyyy)");
         System.out.println("2. Date numbers (m,d,y)");
-        int responce = scanner.nextInt();
+        int responce = nextInt(scanner, 2);
         // If the user selected formated date, ask for the formated date
         if(responce == 1){
             // The scanner is called due to a bug that is not saving the scanner
