@@ -5,9 +5,9 @@
 ### Main menu
 - [x] Add note
 - [x] - Delete note
-- [ ] - Update Note
-- [ ] - Read note
-- [ ] - Exit
+- [x] - Update Note
+- [x] - Read note
+- [x] - Exit
 
 ### Add note
 - [x] - Title
@@ -28,5 +28,5 @@
 - [x] Exit
 
 ## Date.java
-- [ ] parse string date
-- [ ] manual date
+- [x] parse string date
+- [x] manual date
