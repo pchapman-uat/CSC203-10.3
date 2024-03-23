@@ -1,17 +1,24 @@
+// import the sql library
 import java.sql.*;
+// import the scanner library
 import java.util.Scanner;
 
-
+// Import all classes from the Classes folder
 import Classes.*;
+import Classes.Date;
 
 public class Main {
+    // Using an array of strings, print all one at a time
     public static void printArr(String[] array){
         for(String message : array){
             System.out.println(message);
         }
     }
+    // filter notes by id, date range, or specific date
     public static String filterNotes(Scanner scanner){
+        // Scanner is called, but not saved due to a bug with the scanner
         scanner.nextLine();
+        // Print all the filter options
         String[] filterTypes = new String[] {
             "Please enter selection type", 
             "1. By ID", 
@@ -20,31 +27,46 @@ public class Main {
             "4. Exit"
         };
         printArr(filterTypes);
+        // Get the user's selection
+        // BUG: Application will crash if input is a string
+        // TODO: Add a while loop until the user enters a valid option
         int responce = scanner.nextInt();
         scanner.nextLine();
+
+        // If the user selected by ID, ask for the ID
         if(responce == 1){
             System.out.println("Enter the ID");
+            // BUG: Application will crash if input is a string
             int id = scanner.nextInt();
+            // Return the SQL statement to filter by ID
             return "SELECT * from notes WHERE id = "+ Integer.toString(id);
         } else if (responce == 2){
+            // If the user selected by date range, ask for the date range
             String[] filter = selectDateRange(scanner);
+            // Using the created array, return the SQL statement to filter by date range
             return selectFromFilter(filter);
         } else if (responce == 3){
+            // If the user selected by specific date, ask for the specific date
             String[] filter = selectSpecificDate(scanner);
+            // Using the created array, return the SQL statement to filter by specific date
             return selectFromFilter(filter);
-        } else {
+        // If the user selected to exit, return null
+        } else if(responce == 4){
+            return null;
+        // If the user selected an invalid option, return null
+        }else {
             System.out.println("Not a valid option");
             return null;
         }
     }
 
+    // Using the scanner, prompt the user to enter a specific date
     public static String[] selectSpecificDate(Scanner scanner){
         System.out.println("Please enter the date (mm/dd/yyyy)");
-        String date = scanner.nextLine();
-        int month = Integer.parseInt(date.split("/")[0]);
-        int day = Integer.parseInt(date.split("/")[1]);
-        int year = Integer.parseInt(date.split("/")[2]);
-        return new String[] {Integer.toString(year), Integer.toString(month), Integer.toString(day)};
+        // Get the next line from the user
+        Date date = new Date();
+        date.stringDate(scanner.nextLine());
+        return new String[] {Integer.toString(date.year), Integer.toString(date.month), Integer.toString(date.day)};
     }
 
     public static String[] selectDateRange(Scanner scanner){
