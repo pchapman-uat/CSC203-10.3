@@ -1,30 +1,16 @@
 // import the sql library
+import static Const.getInt.nextInt;
+
 import java.sql.*;
 // import the scanner library
 import java.util.Scanner;
 
 // Import all classes from the Classes folder
-import Classes.Note;
+import Classes.*;
 import Classes.Date;
 
-import Classes.Color;
+import Const.getInt;
 public class Main {
-    // TODO: Comment
-    public static int nextInt(Scanner scanner, int max){
-        try {
-            int value = scanner.nextInt();
-            if(value > max && !(max <= 0)) {
-                Color.redPrintln("Invalid input, value must be between 0-"+Integer.toString(max));
-                return nextInt(scanner, max);
-            }
-            else return value;
-         } catch (java.util.InputMismatchException e) {
-             Color.redPrintln("Invalid input, please enter a number");
-             scanner.next();
-             return nextInt(scanner, max);
-         }
-    }
-
     // Using an array of strings, print all one at a time
     public static void printArr(String[] array){
         for(String message : array){
@@ -46,7 +32,7 @@ public class Main {
         printArr(filterTypes);
         // Get the user's selection
 
-        int responce = nextInt(scanner, 4);
+        int responce = getInt.nextInt(scanner, 4);
         
         
         scanner.nextLine();
@@ -54,7 +40,7 @@ public class Main {
         // If the user selected by ID, ask for the ID
         if(responce == 1){
             System.out.println("Enter the ID");
-            int id = nextInt(scanner, -1);
+            int id = getInt.nextInt(scanner, -1);
             // Return the SQL statement to filter by ID
             return "SELECT * from notes WHERE id = "+ Integer.toString(id);
         } else if (responce == 2){

@@ -4,6 +4,8 @@ package Classes;
 // Import the scanner library, this is only used to have a object type for inputs for methods
 import java.util.Scanner;
 
+import Const.getInt;
+
 public class Date {
     // Declare the variables
     public int day;
@@ -57,13 +59,12 @@ public class Date {
     // Using the scanner have an interation for the user to input the date on number at a time
     public void interactDate(Scanner scanner){
         // Ask the user for the date numbers (Day, Month, Year)
-        // BUG: Application will crash if input is a string
         System.out.println("Day (Number)");
-        int day = scanner.nextInt();
+        int day = getInt.nextInt(scanner, -1);
         System.out.println("Month (Number)");
-        int month = scanner.nextInt();
+        int month = getInt.nextInt(scanner, -1);
         System.out.println("Year (Number)");
-        int year = scanner.nextInt();
+        int year = getInt.nextInt(scanner, -1);
         // Set the date using the integers
         this.intDate(day, month, year);
     }
