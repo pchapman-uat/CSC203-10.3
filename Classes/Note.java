@@ -43,22 +43,8 @@ public class Note {
         String title = scanner.nextLine();
         System.out.println("Enter the content");
         String content = scanner.nextLine();
-        System.out.println("==Enter the date==");
-        System.out.println("1. Format Date (mm/dd/yyyy)");
-        System.out.println("2. Date numbers");
-        int responce = scanner.nextInt();
-        if(responce == 1){
-            scanner.nextLine();
-            this.date = new Date();
-            System.out.println("Enter the date (mm/dd/yyyy)");
-            String dateString = scanner.nextLine();
-            this.date.stringDate(dateString);
-        } else if(responce == 2){
-           interactDate(scanner);
-        } else {
-            System.out.println("Not a valid option");
-        }
-
+        this.date = new Date();
+        this.date.interactCreateDate(scanner);
         this.setContent(content);
         this.setTitle(title);
     }
@@ -67,16 +53,6 @@ public class Note {
     }
     public String dbUpdate(){
         return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date.dateString + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + " WHERE id = " + Integer.toString(this.id);
-    }
-
-    public void interactDate(Scanner scanner){
-        System.out.println("Day (Number)");
-        int day = scanner.nextInt();
-        System.out.println("Month (Number)");
-        int month = scanner.nextInt();
-        System.out.println("Year (Number)");
-        int year = scanner.nextInt();
-        this.setDate(day, month, year);
     }
     public String dbDelete(){
         return "DELETE FROM notes WHERE id = " + Integer.toString(this.id);

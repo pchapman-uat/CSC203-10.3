@@ -209,9 +209,8 @@ public class Main {
                                 }
                                 else if(changeChoice == 3){
                                     System.out.println("Changing date");
-                                    System.out.println("Please enter the new date");
 
-                                    note.interactDate(scanner);
+                                    note.date.interactCreateDate(scanner);
                                 }
             
                                 System.out.println("Updating database");

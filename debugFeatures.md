@@ -22,8 +22,8 @@
 - [x] - Exit
 
 ### Update note
-- [ ] Title
-- [ ] Content
+- [x] Title
+- [x] Content
 - [ ] Date
 - [ ] Exit
 
