@@ -197,8 +197,11 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             // Print the introductory text
             String[] intro = new String[]{
-                "\n\n",
+                "\n".repeat(20),
                 Color.blue("\t\tWelcome to the note manager!"), //This generates a blue colored message
+                Color.purple("\t\t    By: Preston Chapman"),
+                Color.red("\t\t\tCSC203 | UAT"),
+                Color.green("\t\t\t 3/23/2024 \n"),
                 "In this program you can add notes, delete notes, update notes, and read notes.",
                 "Push enter when you are ready"
             };
@@ -208,10 +211,10 @@ public class Main {
             System.out.println("\n\n");
             String[] mainOptions = new String[] { 
                 "What would you like to do?", 
-                "1. Add a note", 
-                "2. Delete a note", 
-                "3. Update a note", 
-                "4. Read a note",
+                Color.green("1. Add a note"), 
+                Color.red("2. Delete a note"), 
+                Color.blue("3. Update a note"), 
+                Color.purple("4. Read a note"),
                 "5. Exit"
             };
             int choice = 0;
@@ -325,6 +328,9 @@ public class Main {
                         System.out.println("No notes found");
                     } else {
                         selectNote(scanner, count, statement);
+                        scanner.nextLine();
+                        System.out.println("Push enter to continue");
+                        scanner.nextLine();
                     }
                 }
             }
