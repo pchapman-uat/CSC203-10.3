@@ -6,11 +6,7 @@ public class Note {
     public String title;
     public String content;
 
-    public int day;
-    public int month;
-    public int year;
-
-    public String date;
+    public Date date;
 
     public int id;
 
@@ -23,14 +19,14 @@ public class Note {
         return content;
     }
 
-    public String setDate(int day, int month, int year){
-        this.day = day;
-        this.month = month;
-        this.year = year;
-        this.date = this.day + "/" + this.month + "/" + this.year;
+    public Date getDate(){
         return this.date;
     }
 
+    public Date setDate(int day, int month, int year){
+        this.date = new Date(day, month, year);
+        return this.date;
+    }
     public int setID(int id) {
         this.id = id;
         return id;
@@ -56,14 +52,14 @@ public class Note {
 
         
         this.setContent(content);
-        this.setDate(day, month, year);
+        this.date = new Date(day, month, year);
         this.setTitle(title);
     }
     public String dbInsert(){
-        return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date + "'," + Integer.toString(this.day) + ", " + Integer.toString(this.month) + ", " + Integer.toString(this.year) + ")";
+        return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date + "'," + Integer.toString(this.date.day) + ", " + Integer.toString(this.date.month) + ", " + Integer.toString(this.date.year) + ")";
     }
     public String dbUpdate(){
-        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date + "', day = " + Integer.toString(this.day) + ", month = " + Integer.toString(this.month) + ", year = " + Integer.toString(this.year) + " WHERE id = " + Integer.toString(this.id);
+        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + " WHERE id = " + Integer.toString(this.id);
     }
 
     public String dbDelete(){

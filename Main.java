@@ -5,14 +5,51 @@ import java.util.Scanner;
 import Classes.*;
 
 public class Main {
-    public static String[] filterNotes(Scanner scanner){
+    public static String filterNotes(Scanner scanner){
         scanner.nextLine();
+
+
+        // TODO: Add an option to input ID rather than date
+        // TODO: Add option to add formated date (mm/dd/yyyy) 
+
+        // TODO: While loop to allow multiple attempts
+        System.out.println("Please enter selection type");
+        System.out.println("1. By ID");
+        System.out.println("2. Date range");
+        System.out.println("3. Specific date");  
+        int responce = scanner.nextInt();
+        scanner.nextLine();
+        if(responce == 1){
+            System.out.println("Enter the ID");
+            int id = scanner.nextInt();
+            return "SELECT * from notes WHERE ID = "+ Integer.toString(id);
+        } else if (responce == 2){
+            String[] filter = selectDateRange(scanner);
+            return selectFromFilter(filter);
+        } else if (responce == 3){
+            String[] filter = selectSpecificDate(scanner);
+            return selectFromFilter(filter);
+        } else {
+            System.out.println("Not a valid option");
+            return null;
+        }
+    }
+
+    public static String[] selectSpecificDate(Scanner scanner){
+        // TODO: Intepret input and return a string array of the year, month, and day
+        System.out.println("Please enter the date (mm/dd/yyyy)");
+        String date = scanner.nextLine();
+        int month = Integer.parseInt(date.split("/")[0]);
+        int day = Integer.parseInt(date.split("/")[1]);
+        int year = Integer.parseInt(date.split("/")[2]);
+        return new String[] {Integer.toString(year), Integer.toString(month), Integer.toString(day)};
+    }
+
+    public static String[] selectDateRange(Scanner scanner){
         String month;
         String day;
         String year;
 
-        // TODO: Add an option to input ID rather than date
-        // TODO: Add option to add formated date (mm/dd/yyyy) 
         System.out.println("Please enter the year (A for all)");
         String responce = scanner.nextLine();
         if(responce.equals("A")) return new String[] {"*"};
@@ -27,7 +64,6 @@ public class Main {
         else day = responce;
         return new String[] {year, month, day};
     }
-
     public static String selectFromFilter(String[] filters){
         String where = "";
         for(int i =0; i < filters.length; i++) {
@@ -74,8 +110,7 @@ public class Main {
     }
 
     public static int ineractGetNote(Scanner scanner, Statement statement) throws SQLException{
-        String[] filters = filterNotes(scanner);
-        String selectSQL = selectFromFilter(filters);
+        String selectSQL = filterNotes(scanner);
         return printNotes(statement, selectSQL);
     }
     // TODO: Set a while loop to allow for multiple inputs
