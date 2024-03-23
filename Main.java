@@ -1,15 +1,17 @@
 // import the sql library
-import static Const.getInt.nextInt;
-
 import java.sql.*;
 // import the scanner library
 import java.util.Scanner;
 
 // Import all classes from the Classes folder
-import Classes.*;
+import Classes.Color;
+import Classes.Note;
 import Classes.Date;
 
-import Const.getInt;
+// Import the nextInt function
+// This is only importing the one function, however this can be adjusted to be a wildcard
+import static Const.NextInt.nextInt;
+
 public class Main {
     // Using an array of strings, print all one at a time
     public static void printArr(String[] array){
@@ -32,7 +34,7 @@ public class Main {
         printArr(filterTypes);
         // Get the user's selection
 
-        int responce = getInt.nextInt(scanner, 4);
+        int responce = nextInt(scanner, 4);
         
         
         scanner.nextLine();
@@ -40,7 +42,7 @@ public class Main {
         // If the user selected by ID, ask for the ID
         if(responce == 1){
             System.out.println("Enter the ID");
-            int id = getInt.nextInt(scanner, -1);
+            int id = nextInt(scanner, -1);
             // Return the SQL statement to filter by ID
             return "SELECT * from notes WHERE id = "+ Integer.toString(id);
         } else if (responce == 2){
@@ -199,7 +201,7 @@ public class Main {
             // Print the introductory text
             String[] intro = new String[]{
                 "\n\n",
-                Color.blue("\t\tWelcome to the note manager!"),
+                Color.blue("\t\tWelcome to the note manager!"), //This generates a blue colored message
                 "In this program you can add notes, delete notes, update notes, and read notes.",
                 "Push enter when you are ready"
             };
