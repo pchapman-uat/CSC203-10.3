@@ -21,6 +21,12 @@
 - [x] - Specific date (Note.java interactDate)
 - [x] - Exit
 
+### Update note
+- [ ] Title
+- [ ] Content
+- [ ] Date
+- [ ] Exit
+
 ## Note.java
 - [ ] - interactDate 
 - [ ] - Parse String Date <!--BUG: "this.dateString" is null" --> 
