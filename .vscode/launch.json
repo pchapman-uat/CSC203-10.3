@@ -14,7 +14,7 @@
             "type": "node",
             "name": "Create DB",
             "request": "launch",
-            "program": "${workspaceFolder}/createDB.js",
+            "program": "${workspaceFolder}/js/createDB.js",
         },
         
         {

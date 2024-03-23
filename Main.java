@@ -1,16 +1,13 @@
 // import the sql library
+import static data.Const.NextInt.nextInt;
+
 import java.sql.*;
 // import the scanner library
 import java.util.Scanner;
 
-// Import all classes from the Classes folder
-import Classes.Color;
-import Classes.Note;
-import Classes.Date;
-
-// Import the nextInt function
-// This is only importing the one function, however this can be adjusted to be a wildcard
-import static Const.NextInt.nextInt;
+import data.Classes.Color;
+import data.Classes.Date;
+import data.Classes.Note;
 
 public class Main {
     // Using an array of strings, print all one at a time
@@ -187,7 +184,7 @@ public class Main {
             // The driver is located in lib folder
             // The database is located in the db folder
             // To use the driver it must be specified in settings.json in vscode
-            connection = DriverManager.getConnection("jdbc:sqlite:db/data.sqlite3");
+            connection = DriverManager.getConnection("jdbc:sqlite:data/db/data.sqlite3");
             
             // Create the statement object for interactions with the database
             statement = connection.createStatement();
