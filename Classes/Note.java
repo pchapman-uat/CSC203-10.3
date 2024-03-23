@@ -24,7 +24,8 @@ public class Note {
     }
 
     public Date setDate(int day, int month, int year){
-        this.date = new Date(day, month, year);
+        this.date = new Date();
+        this.date.intDate(day, month, year);
         return this.date;
     }
     public int setID(int id) {
@@ -43,23 +44,35 @@ public class Note {
         System.out.println("Enter the content");
         String content = scanner.nextLine();
         System.out.println("==Enter the date==");
-        System.out.println("Month (Number)");
-        int month = scanner.nextInt();
-        System.out.println("Day (Number)");
-        int day = scanner.nextInt();
-        System.out.println("Year (Number)");
-        int year = scanner.nextInt();
+        System.out.println("1. Format Date (mm/dd/yyyy)");
+        System.out.println("2. Date numbers");
+        int responce = scanner.nextInt();
+        if(responce == 1){
+            scanner.nextLine();
+            this.date = new Date();
+            System.out.println("Enter the date (mm/dd/yyyy)");
+            String dateString = scanner.nextLine();
+            this.date.stringDate(dateString);
+        } else if(responce == 2){
+            System.out.println("Day (Number)");
+            int day = scanner.nextInt();
+            System.out.println("Month (Number)");
+            int month = scanner.nextInt();
+            System.out.println("Year (Number)");
+            int year = scanner.nextInt();
+            this.setDate(day, month, year);
+        } else {
+            System.out.println("Not a valid option");
+        }
 
-        
         this.setContent(content);
-        this.date = new Date(day, month, year);
         this.setTitle(title);
     }
     public String dbInsert(){
-        return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date + "'," + Integer.toString(this.date.day) + ", " + Integer.toString(this.date.month) + ", " + Integer.toString(this.date.year) + ")";
+        return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date.dateString + "'," + Integer.toString(this.date.day) + ", " + Integer.toString(this.date.month) + ", " + Integer.toString(this.date.year) + ")";
     }
     public String dbUpdate(){
-        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + " WHERE id = " + Integer.toString(this.id);
+        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date.dateString + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + " WHERE id = " + Integer.toString(this.id);
     }
 
     public String dbDelete(){
