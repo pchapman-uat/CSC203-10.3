@@ -168,6 +168,7 @@ public class Main {
             note.setTitle(resultSet2.getString("title"));
             note.setDate(resultSet2.getInt("day"), resultSet2.getInt("month"), resultSet2.getInt("year"));
             note.setID(resultSet2.getInt("id"));
+            note.setColor(resultSet2.getString("color"));
             // Display the note information
             System.out.println(note.printNote());
             // Return the note object
@@ -203,7 +204,7 @@ public class Main {
             // Create the statement object for interactions with the database
             statement = connection.createStatement();
             // Create the table if it does not exist
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, title TEXT, content TEXT, date TEXT, day INT, month INT, year INT)";
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY, title TEXT, content TEXT, date TEXT, day INT, month INT, year INT, color TEXT DEFAULT WHITE)";
             // Execute the SQL statement to create the table
             statement.executeUpdate(createTableSQL);
             
@@ -280,16 +281,17 @@ public class Main {
                         // Check if the note object is not null
                         if(note != null){
                             // Display the update changes that can be done
-                            int changeChoice = 0;
+                            int changeChoice = -1;
                             String[] choices = new String[] {
                                 "What would you like to change?",
                                 "1. Title",
                                 "2. Content",
                                 "3. Date",
-                                "4. Exit"
+                                "4. Color",
+                                "0. Exit"
                             };
                             // While the user does not choose to exit, keep looping through the options
-                            while (changeChoice != 4) {
+                            while (changeChoice != 0) {
                                 // Display the options
                                 printArr(choices);
                                 // Get the user's choice
@@ -315,6 +317,10 @@ public class Main {
                                     System.out.println("Changing date");
                                     // Run the interact date method to get the new date
                                     note.date.interactCreateDate(scanner);
+                                }
+                                else if(changeChoice == 4){
+                                    System.out.println("Changing color");
+                                    note.interactColor(scanner);
                                 }
                                 // Update the database with the new changes
                                 System.out.println("Updating database");

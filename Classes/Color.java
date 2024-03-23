@@ -2,7 +2,7 @@ package Classes;
 import static Const.ColorsVals.*;
 
 public class Color {
-    private static String genLine(String color, String message){
+    public static String genLine(String color, String message){
         return color+message+ANSI_RESET;
     }
     public static String red(String message) {

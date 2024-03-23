@@ -2,9 +2,12 @@
 // Everything in the folder is already imported
 package Classes;
 
+import java.util.Map;
 // Import the scanner library, this is only used to have a object type for inputs for methods
 import java.util.Scanner;
 
+
+import static Const.ColorsVals.*;
 public class Note {
     // Declare the variables
     public String title;
@@ -13,6 +16,9 @@ public class Note {
     public Date date;
 
     public int id;
+
+    public String color = "WHITE";
+    private String colorData = ANSI_RESET;
 
     // Setter and getters are created for each variable, however this is not necessary
     
@@ -35,6 +41,10 @@ public class Note {
         return this.date;
     }
 
+    public void setColor(String color){
+       this.color = color;
+       this.colorData = colorMap.get(color);
+    }
     // Get the variable
     public Date getDate(){
         return this.date;
@@ -52,9 +62,23 @@ public class Note {
 
     // Print the note
     public String printNote(){
-        return "===" + this.title + "===" + "\n" + "Date: " + this.date.dateString + "| ID:" +this.id + "\n" + this.content + "\n";
+        return  this.colorData + "===" + this.title + "===" + ANSI_RESET + "\n" + "Date: " + this.date.dateString + "| ID:" +this.id + "\n" + this.content + "\n";
     }
 
+    public void interactColor(Scanner scanner){
+        System.out.println("Please chose a color");
+        for (Map.Entry<String, String> entry : colorMap.entrySet()) {
+            String colorName = entry.getKey();
+            String colorCode = entry.getValue();
+            System.out.println(colorCode+colorName+ANSI_RESET);
+        }
+        String choice = "";
+        while(!(colorMap.containsKey(choice))){
+            choice = scanner.nextLine();
+        }
+        this.setColor(choice);
+        
+    }
     // Create a while interacting with the user via the scanner
     public void createNote(Scanner scanner){
         scanner.nextLine();
@@ -72,12 +96,14 @@ public class Note {
     }
     // These are database related methods that generate SQL statements
     public String dbInsert(){
-        return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date.dateString + "'," + Integer.toString(this.date.day) + ", " + Integer.toString(this.date.month) + ", " + Integer.toString(this.date.year) + ")";
+        return "INSERT INTO notes (title, content, date, day, month, year, color) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date.dateString + "'," + Integer.toString(this.date.day) + ", " + Integer.toString(this.date.month) + ", " + Integer.toString(this.date.year) + ", '"+  this.color + "')";
     }
     public String dbUpdate(){
-        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date.dateString + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + " WHERE id = " + Integer.toString(this.id);
+        System.out.println("UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date.dateString + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + ", color = '" + this.color + "'' WHERE id = " + Integer.toString(this.id));
+        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date.dateString + "', day = " + Integer.toString(this.date.day) + ", month = " + Integer.toString(this.date.month) + ", year = " + Integer.toString(this.date.year) + ", color = '" + this.color + "' WHERE id = " + Integer.toString(this.id);
     }
     public String dbDelete(){
         return "DELETE FROM notes WHERE id = " + Integer.toString(this.id);
     }
+
 }
