@@ -5,6 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "Launch Java Program",
+            "request": "launch",
+            "mainClass": "Main"
+        },
+        {
             "type": "node",
             "name": "Create DB",
             "request": "launch",
@@ -17,12 +23,6 @@
             "request": "launch",
             "mainClass": "${file}"
         },
-        {
-            "type": "java",
-            "name": "Main Java",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "CSC203 10.3"
-        }
+
     ]
 }

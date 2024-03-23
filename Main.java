@@ -4,10 +4,27 @@ import java.sql.*;
 import java.util.Scanner;
 
 // Import all classes from the Classes folder
-import Classes.*;
+import Classes.Note;
 import Classes.Date;
 
+import Classes.Color;
 public class Main {
+    // TODO: Comment
+    public static int nextInt(Scanner scanner, int max){
+        try {
+            int value = scanner.nextInt();
+            if(value > max && !(max <= 0)) {
+                Color.redPrintln("Invalid input, value must be between 0-"+Integer.toString(max));
+                return nextInt(scanner, max);
+            }
+            else return value;
+         } catch (java.util.InputMismatchException e) {
+             Color.redPrintln("Invalid input, please enter a number");
+             scanner.next();
+             return nextInt(scanner, max);
+         }
+    }
+
     // Using an array of strings, print all one at a time
     public static void printArr(String[] array){
         for(String message : array){
@@ -28,16 +45,16 @@ public class Main {
         };
         printArr(filterTypes);
         // Get the user's selection
-        // BUG: Application will crash if input is a string
-        // TODO: Add a while loop until the user enters a valid option
-        int responce = scanner.nextInt();
+
+        int responce = nextInt(scanner, 4);
+        
+        
         scanner.nextLine();
 
         // If the user selected by ID, ask for the ID
         if(responce == 1){
             System.out.println("Enter the ID");
-            // BUG: Application will crash if input is a string
-            int id = scanner.nextInt();
+            int id = nextInt(scanner, -1);
             // Return the SQL statement to filter by ID
             return "SELECT * from notes WHERE id = "+ Integer.toString(id);
         } else if (responce == 2){
@@ -137,28 +154,24 @@ public class Main {
         // Ask the user for the id of the note they would like to select
         // If the user enters a negative number, return null
         System.out.println("Please enter the id of the note you would like to select");
-        int id = scanner.nextInt();
-        if(id < 0) {
-            System.out.println("Invalid id");
-        } else {
-            // Create the SQL statement to select the note by id
-            String selectSQL2 = "SELECT * FROM notes WHERE id = " + id;
-            ResultSet resultSet2 = statement.executeQuery(selectSQL2);
-            // Loop through the results and print them
-            // This only happens once as there is a singular result for each ID, or there is no result
-            while (resultSet2.next()) {
-                // Create a new note object
-                Note note = new Note();
-                // Set the note's properties based on the results of the SQL statement
-                note.setContent(resultSet2.getString("content"));
-                note.setTitle(resultSet2.getString("title"));
-                note.setDate(resultSet2.getInt("day"), resultSet2.getInt("month"), resultSet2.getInt("year"));
-                note.setID(resultSet2.getInt("id"));
-                // Display the note information
-                System.out.println(note.printNote());
-                // Return the note object
-                return note;
-            }
+        int id = nextInt(scanner, -1);
+        // Create the SQL statement to select the note by id
+        String selectSQL2 = "SELECT * FROM notes WHERE id = " + id;
+        ResultSet resultSet2 = statement.executeQuery(selectSQL2);
+        // Loop through the results and print them
+        // This only happens once as there is a singular result for each ID, or there is no result
+        while (resultSet2.next()) {
+            // Create a new note object
+            Note note = new Note();
+            // Set the note's properties based on the results of the SQL statement
+            note.setContent(resultSet2.getString("content"));
+            note.setTitle(resultSet2.getString("title"));
+            note.setDate(resultSet2.getInt("day"), resultSet2.getInt("month"), resultSet2.getInt("year"));
+            note.setID(resultSet2.getInt("id"));
+            // Display the note information
+            System.out.println(note.printNote());
+            // Return the note object
+            return note;
         }
         return null;
     }
@@ -199,7 +212,7 @@ public class Main {
             // Print the introductory text
             String[] intro = new String[]{
                 "\n\n",
-                "\t\tWelcome to the note manager!",
+                Color.blue("\t\tWelcome to the note manager!"),
                 "In this program you can add notes, delete notes, update notes, and read notes.",
                 "Push enter when you are ready"
             };
@@ -221,8 +234,7 @@ public class Main {
                 // Print the options
                 printArr(mainOptions);
                 // Get the user's choice
-                // BUG: If the user enters a string the program will crash
-                choice = scanner.nextInt();
+                choice = nextInt(scanner, 5);
                 System.out.println("\n\n");
                 // If use chooses to add a note, create a new note object, then insert it into the database
                 if(choice == 1) {
@@ -281,8 +293,7 @@ public class Main {
                                 // Display the options
                                 printArr(choices);
                                 // Get the user's choice
-                                // BUG: If the user enters a string the program will crash
-                                changeChoice = scanner.nextInt();   
+                                changeChoice = nextInt(scanner, 4);  
                                 // NOTE: Due to a scanner bug, a scan is made now
                                 scanner.nextLine();
                                 // If the user chooses to change the title, update the title in the note object
