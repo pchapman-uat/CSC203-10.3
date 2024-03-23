@@ -1,2 +1,2 @@
 cd ../
-javac -cp "lib/*" -d bin Main.java Classes/*.java Const/*java
+javac -cp "data/lib/*" -d bin Main.java data/Classes/*.java data/Const/*java

@@ -1,2 +1,2 @@
 cd ../
-java -cp "bin;lib/*" Main
+java -cp "bin;data/lib/*" Main
