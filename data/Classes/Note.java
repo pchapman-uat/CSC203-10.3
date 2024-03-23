@@ -61,7 +61,10 @@ public class Note {
 
     // Print the note
     public String printNote(){
-        return  this.colorData + "===" + this.title + "===" + ANSI_RESET + "\n" + "Date: " + this.date.dateString + "| ID:" +this.id + "\n" + this.content + "\n";
+        String idString;
+        if(this.id == 0) idString = "N/A";
+        else idString = Integer.toString(this.id);
+        return  this.colorData + "===" + this.title + "===" + ANSI_RESET + "\n" + "Date: " + this.date.dateString + "| ID:" + idString + "\n" + this.content + "\n";
     }
 
     public void interactColor(Scanner scanner){
@@ -92,6 +95,10 @@ public class Note {
         // Set the variables
         this.setContent(content);
         this.setTitle(title);
+        this.interactColor(scanner);
+        System.out.println(this.printNote());
+        System.out.println("Push enter to continue");
+        scanner.nextLine();
     }
     // These are database related methods that generate SQL statements
     public String dbInsert(){
