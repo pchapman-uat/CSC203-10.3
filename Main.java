@@ -11,6 +11,8 @@ public class Main {
         String day;
         String year;
 
+        // TODO: Add an option to input ID rather than date
+        // TODO: Add option to add formated date (mm/dd/yyyy) 
         System.out.println("Please enter the year (A for all)");
         String responce = scanner.nextLine();
         if(responce.equals("A")) return new String[] {"*"};
@@ -25,6 +27,58 @@ public class Main {
         else day = responce;
         return new String[] {year, month, day};
     }
+
+    public static String selectFromFilter(String[] filters){
+        String where = "";
+        for(int i =0; i < filters.length; i++) {
+            String source = "";
+            if(i == 0) source = "year";
+            else if(i == 1) source = "month";
+            else source = "day";
+            where += source + "=" +filters[i];
+            if(i!= filters.length - 1) where += " AND ";
+        }
+        if(!where.equals("")) where = " WHERE " + where;
+        return "SELECT * FROM notes" + where;
+    }
+
+    public static int printNotes(Statement statement, String selectSQL) throws SQLException{
+        ResultSet resultSet = statement.executeQuery(selectSQL);
+        int count = 0;
+        while (resultSet.next()) {
+            System.out.println("ID: " + resultSet.getInt("id") + ", Date: " + resultSet.getString("date") + ", Title: " + resultSet.getString("title"));
+            count++;
+        }
+        return count;
+    }
+
+    public static Note selectNote(Scanner scanner,int count, Statement statement) throws SQLException{
+        System.out.println("Please enter the id of the note you would like to select");
+        int id = scanner.nextInt();
+        if(id < 0 || id > count) {
+            System.out.println("Invalid id");
+        } else {
+            String selectSQL2 = "SELECT * FROM notes WHERE id = " + id;
+            ResultSet resultSet2 = statement.executeQuery(selectSQL2);
+            while (resultSet2.next()) {
+                Note note = new Note();
+                note.setContent(resultSet2.getString("content"));
+                note.setTitle(resultSet2.getString("title"));
+                note.setDate(resultSet2.getInt("day"), resultSet2.getInt("month"), resultSet2.getInt("year"));
+                note.setID(resultSet2.getInt("id"));
+                System.out.println(note.printNote());
+                return note;
+            }
+        }
+        return null;
+    }
+
+    public static int ineractGetNote(Scanner scanner, Statement statement) throws SQLException{
+        String[] filters = filterNotes(scanner);
+        String selectSQL = selectFromFilter(filters);
+        return printNotes(statement, selectSQL);
+    }
+    // TODO: Set a while loop to allow for multiple inputs
     public static void main(String[] args) {
         Connection connection = null;
         Statement statement = null;
@@ -51,50 +105,73 @@ public class Main {
                 Note note = new Note();
                 note.createNote(scanner);
                 System.out.println("Inserting into database");
-                System.out.println(note.dbLine());
-                statement.executeUpdate(note.dbLine());
+                System.out.println(note.dbInsert());
+                statement.executeUpdate(note.dbInsert());
             }
             else if(choice == 2) {
-                System.out.println("Deleting a note");
-            }
+                int count = ineractGetNote(scanner, statement);
+                if(count > 0){
+                    System.out.println("Deleting a note");
+                    Note note = selectNote(scanner, count, statement);
+                    System.out.println("Deleting from database");
+                    System.out.println(note.dbDelete());
+                    statement.executeUpdate(note.dbDelete());
+                }
+
+            }   
             else if(choice == 3) {
                 System.out.println("Updating a note");
-            }
-            else if(choice == 4) {
-                System.out.println("Read a note");
-                String[] filters = filterNotes(scanner);
-                String where = "";
-                for(int i =0; i < filters.length; i++) {
-                    String source = "";
-                    if(i == 0) source = "year";
-                    else if(i == 1) source = "month";
-                    else source = "day";
-                    where += source + "=" +filters[i];
-                    if(i!= filters.length - 1) where += " AND ";
-                }
-                if(!where.equals("")) where = " WHERE " + where;
-                String selectSQL = "SELECT * FROM notes" + where;
-                ResultSet resultSet = statement.executeQuery(selectSQL);
-                int count = 0;
-                while (resultSet.next()) {
-                    System.out.println("ID: " + resultSet.getInt("id") + ", Date: " + resultSet.getString("date") + ", Title: " + resultSet.getString("title"));
-                    count++;
-                }
+                int count = ineractGetNote(scanner, statement);
                 if(count == 0) {
                     System.out.println("No notes found");
                 } else {
-                    System.out.println("Please enter the id of the note you would like to read");
-                    int id = scanner.nextInt();
-                    if(id < 0 || id > count) {
-                        System.out.println("Invalid id");
-                    } else {
-                        String selectSQL2 = "SELECT * FROM notes WHERE id = " + id;
-                        ResultSet resultSet2 = statement.executeQuery(selectSQL2);
-                        while (resultSet2.next()) {
-                            System.out.println("ID: " + resultSet2.getInt("id") + ", Date: " + resultSet2.getString("date") + ", Title: " + resultSet2.getString("title"));
-                            System.out.println("Content: " + resultSet2.getString("content"));
-                        }
+                    // TODO: Add a while loop to allow for multiple inputs
+                    Note note = selectNote(scanner, count, statement);
+
+                    System.out.println("What would you like to do?");
+                    System.out.println("1. Change title");
+                    System.out.println("2. Change content");
+                    System.out.println("3. Change date");
+                    int changeChoice = scanner.nextInt();
+
+                    // NOTE: Due to a scanner bug, a scan is made now
+                    scanner.nextLine();
+                    if(changeChoice == 1){
+                        System.out.println("Changing title");
+                        System.out.println("Please enter the new title");
+                        String change = scanner.nextLine();
+                        note.setTitle(change);
                     }
+                    else if(changeChoice == 2){
+                        System.out.println("Changing content");
+                        System.out.println("Please enter the new content");
+                        String change = scanner.nextLine();
+                        note.setContent(change);
+                    }
+                    else if(changeChoice == 3){
+                        System.out.println("Changing date");
+                        System.out.println("Please enter the new date");
+                        System.out.println("Please enter the new day");
+                        int day = scanner.nextInt();
+                        System.out.println("Please enter the new month");
+                        int month = scanner.nextInt();
+                        System.out.println("Please enter the new year");
+                        int year = scanner.nextInt();
+                        note.setDate(day, month, year);
+                    }
+
+                    System.out.println("Updating database");
+                    System.out.println(note.dbUpdate());
+                    statement.executeUpdate(note.dbUpdate());
+                }
+            }
+            else if(choice == 4) {
+                System.out.println("Read a note");
+                int count = ineractGetNote(scanner, statement);
+                if(count == 0) {
+                    System.out.println("No notes found");
+                } else {
+                    selectNote(scanner, count, statement);
                 }
             }
             // Retrieve data

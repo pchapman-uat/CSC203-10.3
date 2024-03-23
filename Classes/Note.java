@@ -6,11 +6,13 @@ public class Note {
     public String title;
     public String content;
 
-    private int day;
-    private int month;
-    private int year;
+    public int day;
+    public int month;
+    public int year;
 
     public String date;
+
+    public int id;
 
     public String setTitle(String title) {
         this.title = title;
@@ -21,12 +23,21 @@ public class Note {
         return content;
     }
 
-    private String setDate(int day, int month, int year){
+    public String setDate(int day, int month, int year){
         this.day = day;
         this.month = month;
         this.year = year;
         this.date = this.day + "/" + this.month + "/" + this.year;
         return this.date;
+    }
+
+    public int setID(int id) {
+        this.id = id;
+        return id;
+    }
+
+    public String printNote(){
+        return "===" + this.title + "===" + "\n" + "Date: " + this.date + "| ID:" +this.id + "\n" + this.content + "\n";
     }
 
     public void createNote(Scanner scanner){
@@ -48,7 +59,14 @@ public class Note {
         this.setDate(day, month, year);
         this.setTitle(title);
     }
-    public String dbLine(){
+    public String dbInsert(){
         return "INSERT INTO notes (title, content, date, day, month, year) VALUES ('"+ this.title + "', '" + this.content + "', '" + this.date + "'," + Integer.toString(this.day) + ", " + Integer.toString(this.month) + ", " + Integer.toString(this.year) + ")";
+    }
+    public String dbUpdate(){
+        return "UPDATE notes SET title = '" + this.title + "', content = '" + this.content + "', date = '" + this.date + "', day = " + Integer.toString(this.day) + ", month = " + Integer.toString(this.month) + ", year = " + Integer.toString(this.year) + " WHERE id = " + Integer.toString(this.id);
+    }
+
+    public String dbDelete(){
+        return "DELETE FROM notes WHERE id = " + Integer.toString(this.id);
     }
 }
