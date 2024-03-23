@@ -12,13 +12,12 @@ public class Main {
     }
     public static String filterNotes(Scanner scanner){
         scanner.nextLine();
-
-        // TODO: While loop to allow multiple attempts
         String[] filterTypes = new String[] {
             "Please enter selection type", 
             "1. By ID", 
             "2. Date range", 
-            "3. Specific date"
+            "3. Specific date",
+            "4. Exit"
         };
         printArr(filterTypes);
         int responce = scanner.nextInt();
@@ -55,15 +54,15 @@ public class Main {
 
         System.out.println("Please enter the year (A for all)");
         String responce = scanner.nextLine();
-        if(responce.equals("A")) return new String[] {"*"};
+        if(responce.equals("A")) return new String[] {};
         else year = responce;
-        System.out.println("Please enter the month");
+        System.out.println("Please enter the month  (A for all)");
         responce = scanner.nextLine();
-        if(responce.equals("A")) return new String[] {year, "*"};
+        if(responce.equals("A")) return new String[] {year};
         else month = responce;
-        System.out.println("Please enter the day");
+        System.out.println("Please enter the day  (A for all)");
         responce = scanner.nextLine();
-        if(responce.equals("A")) return new String[] {year, month, "*"};
+        if(responce.equals("A")) return new String[] {year, month};
         else day = responce;
         return new String[] {year, month, day};
     }
@@ -78,6 +77,7 @@ public class Main {
             if(i!= filters.length - 1) where += " AND ";
         }
         if(!where.equals("")) where = " WHERE " + where;
+        System.out.println("SELECT * FROM notes" + where);
         return "SELECT * FROM notes" + where;
     }
 
@@ -132,8 +132,17 @@ public class Main {
             statement.executeUpdate(createTableSQL);
             
             Scanner scanner = new Scanner(System.in);
-            String[] mainOptions = new String[] {
-                "Welcome to the note manager!", 
+            
+            String[] intro = new String[]{
+                "\n\n",
+                "\t\tWelcome to the note manager!",
+                "In this program you can add notes, delete notes, update notes, and read notes.",
+                "Push enter when you are ready"
+            };
+            printArr(intro);
+            scanner.nextLine();
+            System.out.println("\n\n");
+            String[] mainOptions = new String[] { 
                 "What would you like to do?", 
                 "1. Add a note", 
                 "2. Delete a note", 
@@ -145,12 +154,12 @@ public class Main {
             while(choice != 5){
                 printArr(mainOptions);
                 choice = scanner.nextInt();
+                System.out.println("\n\n");
                 if(choice == 1) {
                     System.out.println("Adding a note");
                     Note note = new Note();
                     note.createNote(scanner);
                     System.out.println("Inserting into database");
-                    System.out.println(note.dbInsert());
                     statement.executeUpdate(note.dbInsert());
                 }
                 else if(choice == 2) {
@@ -159,7 +168,6 @@ public class Main {
                         System.out.println("Deleting a note");
                         Note note = selectNote(scanner, count, statement);
                         System.out.println("Deleting from database");
-                        System.out.println(note.dbDelete());
                         statement.executeUpdate(note.dbDelete());
                     }
     
@@ -170,44 +178,44 @@ public class Main {
                     if(count == 0) {
                         System.out.println("No notes found");
                     } else {
-                        // TODO: Add a while loop to allow for multiple inputs
                         Note note = selectNote(scanner, count, statement);
                         if(note != null){
-                            System.out.println("What would you like to do?");
-                            System.out.println("1. Change title");
-                            System.out.println("2. Change content");
-                            System.out.println("3. Change date");
-                            int changeChoice = scanner.nextInt();
+                            int changeChoice = 0;
+                            String[] choices = new String[] {
+                                "What would you like to change?",
+                                "1. Title",
+                                "2. Content",
+                                "3. Date",
+                                "4. Exit"
+                            };
+                            while (changeChoice != 4) {
+                                printArr(choices);
+                                changeChoice = scanner.nextInt();   
+                                // NOTE: Due to a scanner bug, a scan is made now
+                                scanner.nextLine();
+                                if(changeChoice == 1){
+                                    System.out.println("Changing title");
+                                    System.out.println("Please enter the new title");
+                                    String change = scanner.nextLine();
+                                    note.setTitle(change);
+                                }
+                                else if(changeChoice == 2){
+                                    System.out.println("Changing content");
+                                    System.out.println("Please enter the new content");
+                                    String change = scanner.nextLine();
+                                    note.setContent(change);
+                                }
+                                else if(changeChoice == 3){
+                                    System.out.println("Changing date");
+                                    System.out.println("Please enter the new date");
+
+                                    note.interactDate(scanner);
+                                }
+            
+                                System.out.println("Updating database");
+                                statement.executeUpdate(note.dbUpdate());
+                            }
         
-                            // NOTE: Due to a scanner bug, a scan is made now
-                            scanner.nextLine();
-                            if(changeChoice == 1){
-                                System.out.println("Changing title");
-                                System.out.println("Please enter the new title");
-                                String change = scanner.nextLine();
-                                note.setTitle(change);
-                            }
-                            else if(changeChoice == 2){
-                                System.out.println("Changing content");
-                                System.out.println("Please enter the new content");
-                                String change = scanner.nextLine();
-                                note.setContent(change);
-                            }
-                            else if(changeChoice == 3){
-                                System.out.println("Changing date");
-                                System.out.println("Please enter the new date");
-                                System.out.println("Please enter the new day");
-                                int day = scanner.nextInt();
-                                System.out.println("Please enter the new month");
-                                int month = scanner.nextInt();
-                                System.out.println("Please enter the new year");
-                                int year = scanner.nextInt();
-                                note.setDate(day, month, year);
-                            }
-        
-                            System.out.println("Updating database");
-                            System.out.println(note.dbUpdate());
-                            statement.executeUpdate(note.dbUpdate());
                         } else {
                             System.out.println("Not a valid note");
                         }
