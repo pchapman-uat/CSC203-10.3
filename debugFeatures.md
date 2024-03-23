@@ -3,17 +3,17 @@
 ## Main.java
 
 ### Main menu
-[ ] - Add note
+[X] - Add note
 [ ] - Delete note
 [ ] - Update Note
 [ ] - Read note
 [ ] - Exit
 
 ### Add note
-[ ] - Title
-[ ] - Content
-[ ] - Date
-[ ] - Note.java ineractDate
+[X] - Title
+[X] - Content
+[X] - Date
+[X] - Note.java ineractDate
 
 ### Select note
 [ ] - By ID
