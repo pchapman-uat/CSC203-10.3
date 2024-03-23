@@ -4,7 +4,7 @@
 
 ### Main menu
 - [x] Add note
-- [ ] - Delete note
+- [x] - Delete note
 - [ ] - Update Note
 - [ ] - Read note
 - [ ] - Exit
@@ -16,10 +16,10 @@
 - [x] - Note.java ineractDate
 
 ### Select note
-- [ ] - By ID
-- [ ] - Date range (Note.Java parse string date)
-- [ ] - Specific date (Note.java interactDate)
-- [ ] - Exit
+- [x] - By ID
+- [x] - Date range (Note.Java parse string date)
+- [x] - Specific date (Note.java interactDate)
+- [x] - Exit
 
 ## Note.java
 - [ ] - interactDate 

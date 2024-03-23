@@ -169,6 +169,8 @@ public class Main {
                         Note note = selectNote(scanner, count, statement);
                         System.out.println("Deleting from database");
                         statement.executeUpdate(note.dbDelete());
+                    } else {
+                        System.out.println("No notes found");
                     }
     
                 }   
