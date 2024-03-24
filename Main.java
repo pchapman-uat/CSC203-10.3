@@ -284,7 +284,6 @@ public class Main {
                                 printArr(choices);
                                 // Get the user's choice
                                 changeChoice = nextInt(scanner, 4);  
-                                // NOTE: Due to a scanner bug, a scan is made now
                                 scanner.nextLine();
                                 // If the user chooses to change the title, update the title in the note object
                                 if(changeChoice == 1){
