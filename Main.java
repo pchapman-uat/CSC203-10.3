@@ -197,7 +197,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             // Print the introductory text
             String[] intro = new String[]{
-                "\n".repeat(20),
+                "\n".repeat(25),
                 Color.blue("\t\tWelcome to the note manager!"), //This generates a blue colored message
                 Color.purple("\t\t    By: Preston Chapman"),
                 Color.red("\t\t\tCSC203 | UAT"),
